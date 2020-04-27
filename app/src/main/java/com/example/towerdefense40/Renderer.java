@@ -45,29 +45,40 @@ class Renderer {
             if(gameState.getDrawing()) {
                 map.draw(canvas, paint);
                 uiController.getT().draw(canvas,paint);
-
                 uiController.getT2().draw(canvas,paint);
                 if(gameState.getTime()>=gameState.getTimeToSpawn()) {
                     gameObjectSpawn(enemies, gameState);
-                    if(uiController.getT().distance(enemies.get(0))<=CONSTANT.FIRING_RANGE) {
-                        uiController.getT().getProjectile().draw(canvas, paint);
-                        if(gameState.getPaused()){
-                            uiController.getT().getProjectile().pause();
-                        }else {
-                            uiController.getT().getProjectile().reset();
-                            uiController.getT().getProjectile().move(uiController.getT());
-                            Predicate<Enemy> enemyPredicate = enemy -> enemy.getLocationX()==uiController.getT().getProjectile().getLocationX();
-                            enemies.removeIf(enemyPredicate);//change module setting source and language to level 8
-                        }
-                    }
+                    arrowSpawn(uiController, enemies, gameState);
                 }
             }
             hud.draw(canvas, paint, gameState);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
-    private void arrowSpawn(){
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void arrowSpawn(UIController uiController, ArrayList<Enemy>enemies, GameState gameState){
+    	if(uiController.getT().distance(enemies.get(0))<=CONSTANT.FIRING_RANGE) {
+            uiController.getT().getProjectile().draw(canvas, paint);
+            if(gameState.getPaused()){
+                uiController.getT().getProjectile().pause();
+            }else {
+                    uiController.getT().getProjectile().reset();
+                    uiController.getT().getProjectile().move(uiController.getT());
+                    Predicate<Enemy> enemyPredicate = enemy -> (enemy.getLocationX()==uiController.getT().getProjectile().getLocationX());
+                    enemies.removeIf(enemyPredicate);//change module setting source and language to level 8
+            }
+        }
+        if(uiController.getT2().distance(enemies.get(0))<=CONSTANT.FIRING_RANGE) {
+            uiController.getT2().getProjectile().draw(canvas, paint);
+            if(gameState.getPaused()){
+                uiController.getT2().getProjectile().pause();
+            }else {
+                    uiController.getT2().getProjectile().reset();
+                    uiController.getT2().getProjectile().move(uiController.getT2());
+                    Predicate<Enemy> enemyPredicate = enemy -> (enemy.getLocationX()==uiController.getT2().getProjectile().getLocationX());
+                    enemies.removeIf(enemyPredicate);//change module setting source and language to level 8
+            }
+        }
     }
     private void gameObjectSpawn(ArrayList<Enemy> enemies, GameState gameState) {
         int i=enemies.size()-1;

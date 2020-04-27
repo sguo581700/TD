@@ -18,7 +18,7 @@ class Projectile extends GameObject {
         objectHeight = CONSTANT.SQUARE_SIZE/2;
         location = new Point();
         bitmapObject = setBitmapObject(context, objectWidth, objectHeight, R.drawable.projectile_arrow);
-        speed = 10;
+        speed = 5;
     }
     void setLocation(Tower tower){
         location.x = tower.getLocationX();
