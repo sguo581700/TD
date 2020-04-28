@@ -41,4 +41,11 @@ class Tower extends GameObject {
     int getLocationX(){return location.x;}
     int getLocationY(){return location.y;}
     Projectile getProjectile(){return projectile;}
+    int countEnemyLoss(ArrayList<Enemy>enemies){
+        int counter=0;
+        for(Enemy enemy: enemies){
+                counter++;
+        }
+        return CONSTANT.WAVE1_ENEMY-counter;
+    }
 }

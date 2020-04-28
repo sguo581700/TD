@@ -60,7 +60,7 @@ public class UIController implements InputObserver{
                     if(!gameState.getPaused()) {
                         gameState.pause();
                     }
-                    gameState.setConstruct();
+                    gameState.setBuild();
                     t.setLocation(x,y);
                     t.getProjectile().setLocation(t);
             }
@@ -68,7 +68,7 @@ public class UIController implements InputObserver{
                 if(!gameState.getPaused()) {
                     gameState.pause();
                 }
-                gameState.setConstruct();
+                gameState.setBuild();
                 t2.setLocation(x,y);
                 t2.getProjectile().setLocation(t2);
             }

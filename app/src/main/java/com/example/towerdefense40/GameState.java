@@ -6,7 +6,6 @@ public class GameState {
     private static volatile boolean gameOver = true;
     private static volatile boolean drawing = false;
     private static volatile boolean buildState = false;
-    private static volatile boolean construct = false;
 
     private static int hitPoint;
     private static float timeIncrement=0.1f;
@@ -43,10 +42,12 @@ public class GameState {
 
     void increaseWarFund(int loss){
         int temp = CONSTANT.WF_INIT;
-
         warFund =temp + loss*10;
     }
-
+    void expense(){
+        int temp = CONSTANT.BASE_TOWER_EXPENSE;
+        warFund = temp-CONSTANT.BASE_TOWER_EXPENSE;
+    }
     int getWarFund(){
         return warFund;
     }
@@ -113,5 +114,4 @@ public class GameState {
     void setBuild(){
         buildState = true;
     }
-    void setConstruct(){construct=true;}
 }

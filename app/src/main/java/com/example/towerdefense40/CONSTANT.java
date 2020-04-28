@@ -15,5 +15,5 @@ class CONSTANT {
     static final int WAVE1_ENEMY = 6;
     static final int NUM_AREAS=2;
     static final double FIRING_RANGE=400;
-
+    static final int BASE_TOWER_EXPENSE=100;
 }

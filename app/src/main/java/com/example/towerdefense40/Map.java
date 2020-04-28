@@ -63,4 +63,5 @@ public class Map extends GameObject {
         location.x = x;
         location.y = y;
     }
+    Castle getCastle(){return castle;}
 }

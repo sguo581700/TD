@@ -37,14 +37,31 @@ class Projectile extends GameObject {
     int getLocationY(){
         return location.y;
     }
-    void move(Tower tower){
-        if(location.x>0&&location.y<22*CONSTANT.SQUARE_SIZE)
-           location.x-=speed;
-           location.y+=speed;
-           if(location.x<0||location.y>22*CONSTANT.SQUARE_SIZE){
-               setLocation(tower);
-               location.x=getLocationX();
-               location.y=getLocationY();
-           }
+    void move(Tower tower, Enemy enemy){
+        if(location.x>0&&location.y<22*CONSTANT.SQUARE_SIZE) {
+            if (tower.getLocationY() < enemy.getLocationY()) {   //area1 tower to enemy
+                if (enemy.getLocationX() < tower.getLocationX()) {
+                    location.x -= speed;
+                    location.y += speed;
+                } else {
+                    location.x += speed;
+                    location.y += speed;
+                }
+            }
+            if (tower.getLocationY() > enemy.getLocationY()) {  //area2 tower to enemy
+                if (enemy.getLocationX() < tower.getLocationX()) {
+                    location.x -= speed;
+                    location.y -= speed;
+                } else {
+                    location.x += speed;
+                    location.y -= speed;
+                }
+            }
+        }
+        if(location.x<=0||location.y>=22*CONSTANT.SQUARE_SIZE){
+            setLocation(tower);
+            location.x=getLocationX();
+            location.y=getLocationY();
+        }
     }
 }

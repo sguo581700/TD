@@ -7,6 +7,8 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 
+import java.util.ArrayList;
+
 class Castle extends GameObject{
     private Point location;
     private Bitmap bitmapObject;
@@ -44,13 +46,13 @@ class Castle extends GameObject{
         return location.y;
     }
 
-  /*  int countIntruders(ArrayList<Enemy> enemies){
+    int countIntruders(ArrayList<Enemy> enemies){
         int counter=0;
         for(Enemy enemy: enemies){
-            if(enemy.getLocationX()>=(this.getLocationX()+ squareConst)&&enemy.getLocationY()>this.getLocationY()){
+            if(enemy.getLocationX()>=(this.getLocationX()+ CONSTANT.SQUARE_SIZE)&&enemy.getLocationY()>this.getLocationY()){
                 counter++;
             }
         }
         return counter;
-    }*/
+    }
 }

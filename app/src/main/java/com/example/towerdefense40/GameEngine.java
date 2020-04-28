@@ -2,9 +2,12 @@ package com.example.towerdefense40;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.os.Build;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 
@@ -21,8 +24,8 @@ class GameEngine extends SurfaceView implements Runnable, GameEngineBroadcaster{
         renderer = new Renderer(this, size);
         hud = new HUD(context);
         uiController = new UIController(this, context);
-
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void run() {
         while(gameState.getThreadRunning()){

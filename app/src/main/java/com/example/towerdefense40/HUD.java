@@ -7,6 +7,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 
@@ -93,17 +96,15 @@ public class HUD extends GameObject {
         location.x = 0; location.y=0;
     }
 
-    Point getLocation(){
-        return location;
-    }
-    void draw(Canvas canvas, Paint paint, GameState gameState){
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    void draw(Canvas canvas, Paint paint, GameState gameState, ArrayList<Enemy>enemies){
         paint.setColor(Color.argb(255, 255, 255, 255));
         paint.setTextSize(S);
         drawHP(canvas, paint, gameState);
         drawWarFund(canvas, paint, gameState);
         drawTimer(canvas, paint, gameState);
+        drawEnemyHP(canvas, paint, gameState, enemies);
         gameState.startTimer();
-
         if(gameState.getGameOver()){
             paint.setTextSize(textFormatting*5);
             canvas.drawText("PRESS PLAY" , S*4, S*12, paint);
@@ -139,5 +140,9 @@ public class HUD extends GameObject {
     private void drawTimer(Canvas canvas, Paint paint, GameState gameState){
         canvas.drawText("Timer: "+(int)gameState.getTime(), S * 20, S , paint);
     }
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void drawEnemyHP(Canvas canvas, Paint paint, GameState gameState, ArrayList<Enemy>enemies){
+        int i=0;
+        enemies.forEach(enemy -> canvas.drawText("hp: "+(int)enemy.getHitPoint(), S*26,S, paint));
+    }
 }
