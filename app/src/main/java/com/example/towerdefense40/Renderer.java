@@ -23,6 +23,7 @@ class Renderer {
     private SurfaceHolder surfaceHolder;
     private Map map;
     private ArrayList<Enemy>enemies;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     Renderer(SurfaceView sv, Point size){
         paint = new Paint();
         surfaceHolder = sv.getHolder();
@@ -33,9 +34,7 @@ class Renderer {
             Enemy g = new Enemy(sv.getContext(), size);
             enemies.add(g);
         }
-        for(int i = 0; i< enemies.size(); i++) {
-            enemies.get(i).setLocation(enemies.get(i).getSquareSize(), enemies.get(i).getSquareSize()*13);
-        }
+        enemies.forEach(enemy -> enemy.setLocation(enemy.getSquareSize(), enemy.getSquareSize()*13));
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     void draw(HUD hud, GameState gameState, UIController uiController){
@@ -54,13 +53,13 @@ class Renderer {
             }
             gameState.increaseWarFund(uiController.getT().countEnemyLoss(enemies));
             gameState.loseLife(map.getCastle().countIntruders(enemies));
-            hud.draw(canvas, paint, gameState,enemies);
+            hud.draw(canvas, paint, gameState);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void arrowSpawn(UIController uiController, GameState gameState){
-    	if(uiController.getT().distance(enemies.get(0))<=CONSTANT.FIRING_RANGE) {
+    	if(uiController.getT().distance(enemies.get(enemies.size()-1))<=CONSTANT.FIRING_RANGE) {
             uiController.getT().getProjectile().draw(canvas, paint);
             if(gameState.getPaused()){
                 uiController.getT().getProjectile().pause();
@@ -79,12 +78,14 @@ class Renderer {
                     uiController.getT().getProjectile().reset();
                     ProjectileMove(uiController);
                     EnemiesTakenHit(uiController);
-                    //EnemyRemoval(uiController);
+                    EnemyRemoval(uiController);
             }
         }
     }
     private void enemyTakenHit(Enemy enemy, UIController uiController){
         if(enemy.getLocationX()==uiController.getT().getProjectile().getLocationX()){enemy.hitPointLoss();}
+        if(enemy.getLocationX()==uiController.getT2().getProjectile().getLocationX()){enemy.hitPointLoss();}
+
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void EnemiesTakenHit(UIController uiController){
@@ -92,13 +93,16 @@ class Renderer {
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void ProjectileMove(UIController uiController){
-        enemies.forEach(enemy -> uiController.getT().getProjectile().move(uiController.getT(),enemy));;
+        enemies.forEach(enemy -> uiController.getT().getProjectile().move(uiController.getT(),enemy));
+        enemies.forEach(enemy -> uiController.getT2().getProjectile().move(uiController.getT2(),enemy));
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void EnemyRemoval(UIController uiController){
         Predicate<Enemy> enemyPredicate = enemy -> (enemy.getLocationX()==uiController.getT().getProjectile().getLocationX());
+        Predicate<Enemy> enemyPredicate2 = enemy -> (enemy.getLocationX()==uiController.getT2().getProjectile().getLocationX());
         enemies.removeIf(enemyPredicate);//change module setting source and language to level 8
-       }
+        enemies.removeIf(enemyPredicate2);//change module setting source and language to level 8
+    }
     private void gameObjectSpawn(GameState gameState) {
         int i=enemies.size()-1;
         enemies.get(i).draw(canvas, paint);
