@@ -1,5 +1,6 @@
 package com.example.towerdefense40;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
@@ -11,6 +12,7 @@ import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 
+@SuppressLint("ViewConstructor")
 class GameEngine extends SurfaceView implements Runnable, GameEngineBroadcaster{
     private Thread thread = null;
     private GameState gameState;
@@ -18,6 +20,7 @@ class GameEngine extends SurfaceView implements Runnable, GameEngineBroadcaster{
     private HUD hud;
     private ArrayList<InputObserver> inputObservers = new ArrayList();
     private UIController uiController;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public GameEngine(Context context, Point size) {
         super(context);
         gameState = new GameState();

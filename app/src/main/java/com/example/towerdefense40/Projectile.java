@@ -38,7 +38,7 @@ class Projectile extends GameObject {
         return location.y;
     }
     void move(Tower tower, Enemy enemy){
-        if(location.x>0&&location.y<22*CONSTANT.SQUARE_SIZE) {
+        if(location.x > 0 && location.y < 22*CONSTANT.SQUARE_SIZE) {
             if (tower.getLocationY() < enemy.getLocationY()) {   //area1 tower to enemy
                 if (enemy.getLocationX() < tower.getLocationX()) {
                     location.x -= speed;

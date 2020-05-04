@@ -6,19 +6,39 @@ public class GameState {
     private static volatile boolean gameOver = true;
     private static volatile boolean drawing = false;
     private static volatile boolean buildState = false;
+    private static volatile boolean defeated = false;
+    private static volatile boolean completed = false;
 
+    private  int enemyRem;
     private static int hitPoint;
     private static float timeIncrement=0.1f;
     private int warFund;
     private float timer; //timing system;
     private final float timeToSpawn = CONSTANT.SPAWN_TIME;
+
     GameState(){
+        enemyRem = CONSTANT.WAVE1_ENEMY;
         timer=0;
     }
+
     private void endGame(){
         gameOver = true;
         paused = true;
+        setDefeated();
+
+
+
     }
+    void setEnemyRem(){
+        enemyRem -= 1;
+    }
+    int getEnemyRem(){return enemyRem;}
+
+    void  setDefeated() { defeated = true; }
+    boolean getDefeated () {return defeated;}
+    void  setCompleted(){ completed = true; }
+    boolean getCompleted () {return completed;}
+
     void startNewGame(){
         hitPoint = CONSTANT.HP;
         warFund = CONSTANT.WF_INIT;
@@ -35,6 +55,7 @@ public class GameState {
             pause();
             endGame();
         }
+
     }
     int getHitPoint(){
         return hitPoint;
@@ -43,6 +64,7 @@ public class GameState {
     void increaseWarFund(int loss){
         int temp = CONSTANT.WF_INIT;
         warFund =temp + loss*10;
+
     }
     void expense(){
         int temp = CONSTANT.BASE_TOWER_EXPENSE;

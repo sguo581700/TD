@@ -31,8 +31,8 @@ class Tower extends GameObject {
         canvas.drawBitmap(bitmapObject, location.x, location.y, paint);
     }
     void setLocation(int x, int y){
-        location.x = x;
-        location.y = y;
+        location.x = x - CONSTANT.SQUARE_SIZE; //set location x to be center of the tower
+        location.y = y - CONSTANT.SQUARE_SIZE; //set location y to be center of the tower
     }
       double distance(Enemy enemy){
          return Math.sqrt(Math.pow(Math.abs(enemy.getLocationX()-this.getLocationX()), 2)+Math.pow(Math.abs(enemy.getLocationY()-this.getLocationY()),2));

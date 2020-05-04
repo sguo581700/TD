@@ -74,8 +74,8 @@ public class HUD extends GameObject {
         controlsR.add(RECYCLE, recycleR);
     }
     private void createAreasR(){
-        Rect area1 = new Rect(0, S*10, S*26, S*12); //areas built towers
-        Rect area2 = new Rect (0, S*14, S*22, S*16); //areasbuilt towers
+        Rect area1 = new Rect(0, S*9, S*26, S*11); //areas built towers
+        Rect area2 = new Rect (0, S*15, S*22, S*17); //areas built towers
         areasR = new ArrayList<>();
         areasR.add(AREA1, area1);
         areasR.add(AREA2, area2);
@@ -103,11 +103,20 @@ public class HUD extends GameObject {
         drawHP(canvas, paint, gameState);
         drawWarFund(canvas, paint, gameState);
         drawTimer(canvas, paint, gameState);
+        //drawRemain(canvas, paint, gameState);
         gameState.startTimer();
+
         if(gameState.getGameOver()){
             paint.setTextSize(textFormatting*5);
-            canvas.drawText("PRESS PLAY" , S*4, S*12, paint);
+            if(gameState.getDefeated()){
+                canvas.drawText("DEFEATED" , S*4, S*12, paint);
+            }
+            else{
+                canvas.drawText("PRESS PLAY" , S*4, S*12, paint);
+            }
+
             gameState.resetTimer();
+
         }
         if(gameState.getPaused()&&!gameState.getGameOver()){
             paint.setTextSize(S * 5);
@@ -138,6 +147,9 @@ public class HUD extends GameObject {
     }
     private void drawTimer(Canvas canvas, Paint paint, GameState gameState){
         canvas.drawText("Timer: "+(int)gameState.getTime(), S * 20, S , paint);
+    }
+    private void drawRemain(Canvas canvas, Paint paint, GameState gameState){
+        canvas.drawText("Remain: "+gameState.getEnemyRem(), S * 20, S * 2 - 2 , paint);
     }
 
 }

@@ -3,11 +3,15 @@ package com.example.towerdefense40;
 
 import android.app.Activity;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
 
+import androidx.annotation.RequiresApi;
+
 public class GameActivity extends Activity {
     GameEngine gameEngine;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

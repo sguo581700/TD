@@ -19,9 +19,11 @@ class Castle extends GameObject{
         super(context);
         objectWidth = S * 4;
         objectHeight = S * 4;
-        location = new Point(S * 20, S * 17);
+        location = new Point(S * 23, S * 18);
         bitmapObject = this.setBitmapObject(context, objectWidth, objectHeight, R.drawable.castle);
+        rotateBitmap(bitmapObject, CONSTANT.LEFT);
     }
+
     //draw the image onto Canvas
     void draw(Canvas canvas, Paint paint){
         canvas.drawBitmap(bitmapObject, location.x, location.y, paint);
@@ -51,6 +53,8 @@ class Castle extends GameObject{
         for(Enemy enemy: enemies){
             if(enemy.getLocationX()>=(this.getLocationX()+ CONSTANT.SQUARE_SIZE)&&enemy.getLocationY()>this.getLocationY()){
                 counter++;
+                //enemy.setEnemiesRemain();
+
             }
         }
         return counter;

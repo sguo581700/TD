@@ -10,6 +10,9 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 
+import java.util.Random;
+
+
 class Enemy extends GameObject {
     private Bitmap bitmapObject;
     private Bitmap bitmapObjectUp;
@@ -21,6 +24,7 @@ class Enemy extends GameObject {
     private int screenHeight;
     private Point location;
     private int speed;
+    private int enemiesRemain;
     private static double hitPoint;
     private boolean isDead;
     private Rect rect;
@@ -35,29 +39,44 @@ class Enemy extends GameObject {
         bitmapObjectR = setBitmapObject(context, objectWidth, objectHeight, R.drawable.basic_enemy);
         bitmapObjectD = rotateBitmap(CONSTANT.RIGHT, objectWidth, objectHeight);
         speed = 1;
+        enemiesRemain = CONSTANT.WAVE1_ENEMY;
         location = new Point();
         hitPoint =10;
         isDead = false;
         rect = new Rect(location.x, location.y, objectWidth, objectHeight);
+
     }
+
+
+    void setEnemiesRemain() {
+        enemiesRemain -= 1;
+
+    }
+    int getEnemiesRemain(){ return enemiesRemain; }
 
     private void turnUp(){bitmapObject = bitmapObjectUp;}
     private void turnDown(){bitmapObject =bitmapObjectD;}
     private void recover(){bitmapObject = bitmapObjectR;}
     void hitPointLoss(){
         double temp = hitPoint;
-        hitPoint= temp-5.0;}
+        hitPoint= temp-5.0;
+
+        if (hitPoint <= 0) setEnemiesRemain();
+    }
     void setLocation(int x, int y){
         location.x = x;
         location.y = y;
     }
     void move(){
-        if(location.x<objectWidth*25){
+
+        if(location.x< 25 * CONSTANT.SQUARE_SIZE && location.y == 12 * CONSTANT.SQUARE_SIZE ||
+                location.x< 24 * CONSTANT.SQUARE_SIZE && location.y == 13 * CONSTANT.SQUARE_SIZE ){
             location.x+=speed;
         }else{
             turnDown();
             location.y+=speed;
         }
+
         if(location.y<screenHeight/2-6*objectHeight){
             this.recover();
             location.y=screenHeight/2-6*objectHeight;
@@ -77,7 +96,17 @@ class Enemy extends GameObject {
         return drawable;
     }
     void draw(Canvas canvas, Paint paint){
-        canvas.drawBitmap(bitmapObject, location.x, location.y, paint);
+        final Random myRandom = new Random();
+
+        if(location.x == CONSTANT.SQUARE_SIZE) {
+            int spawnY = myRandom.nextInt(2) + 12;
+            location.y = spawnY * CONSTANT.SQUARE_SIZE;
+        }
+
+        if(location.y < objectHeight * 17) {
+
+            canvas.drawBitmap(bitmapObject, location.x, location.y, paint);
+        }
     }
     Bitmap getBitmapObject(){return this.bitmapObject;}
     int getLocationX(){return location.x;}

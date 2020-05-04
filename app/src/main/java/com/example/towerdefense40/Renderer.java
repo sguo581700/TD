@@ -23,6 +23,7 @@ class Renderer {
     private SurfaceHolder surfaceHolder;
     private Map map;
     private ArrayList<Enemy>enemies;
+    //private int enemyLeft;
     @RequiresApi(api = Build.VERSION_CODES.N)
     Renderer(SurfaceView sv, Point size){
         paint = new Paint();
@@ -33,6 +34,7 @@ class Renderer {
         for(int i=0; i < CONSTANT.WAVE1_ENEMY;i++){
             Enemy g = new Enemy(sv.getContext(), size);
             enemies.add(g);
+            //enemyLeft++;
         }
         enemies.forEach(enemy -> enemy.setLocation(enemy.getSquareSize(), enemy.getSquareSize()*13));
     }
@@ -59,32 +61,51 @@ class Renderer {
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void arrowSpawn(UIController uiController, GameState gameState){
-    	if(uiController.getT().distance(enemies.get(enemies.size()-1))<=CONSTANT.FIRING_RANGE) {
-            uiController.getT().getProjectile().draw(canvas, paint);
-            if(gameState.getPaused()){
-                uiController.getT().getProjectile().pause();
-            }else {
+        if(enemies.size() > 0) {
+            if (uiController.getT().distance(enemies.get(enemies.size() - 1)) <= CONSTANT.FIRING_RANGE) {
+                uiController.getT().getProjectile().draw(canvas, paint);
+                if (gameState.getPaused()) {
+                    uiController.getT().getProjectile().pause();
+                } else {
                     uiController.getT().getProjectile().reset();
                     ProjectileMove(uiController);
                     EnemiesTakenHit(uiController);
                     EnemyRemoval(uiController);
+                }
             }
-    	}
-        if(uiController.getT2().distance(enemies.get(0))<=CONSTANT.FIRING_RANGE) {
-            uiController.getT2().getProjectile().draw(canvas, paint);
-            if(gameState.getPaused()){
-                uiController.getT2().getProjectile().pause();
-            }else {
+        }
+
+        if(enemies.size() > 0) {
+            if (uiController.getT2().distance(enemies.get(enemies.size() - 1)) <= CONSTANT.FIRING_RANGE) {
+                uiController.getT2().getProjectile().draw(canvas, paint);
+                if (gameState.getPaused()) {
+                    uiController.getT2().getProjectile().pause();
+                } else {
                     uiController.getT().getProjectile().reset();
                     ProjectileMove(uiController);
                     EnemiesTakenHit(uiController);
                     EnemyRemoval(uiController);
+                }
             }
+        }
+
+        if (enemies.size() == 0){
+            paint.setTextSize(S * 5);
+            canvas.drawText("COMPLETED", S*4, S*12, paint);
+            gameState.setCompleted();
+            gameState.pauseTimer();
+
+
         }
     }
     private void enemyTakenHit(Enemy enemy, UIController uiController){
-        if(enemy.getLocationX()==uiController.getT().getProjectile().getLocationX()){enemy.hitPointLoss();}
-        if(enemy.getLocationX()==uiController.getT2().getProjectile().getLocationX()){enemy.hitPointLoss();}
+        if(enemy.getLocationX()==uiController.getT().getProjectile().getLocationX()){
+            enemy.hitPointLoss();
+        }
+        if(enemy.getLocationX()==uiController.getT2().getProjectile().getLocationX()){
+            enemy.hitPointLoss();
+
+        }
 
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -104,24 +125,29 @@ class Renderer {
         enemies.removeIf(enemyPredicate2);//change module setting source and language to level 8
     }
     private void gameObjectSpawn(GameState gameState) {
-        int i=enemies.size()-1;
-        enemies.get(i).draw(canvas, paint);
-        if(gameState.getPaused()){
-            enemies.get(i).pause();
-        }else {
+        if(enemies.size() > 0) {
+            int i = enemies.size() - 1;
+            enemies.get(i).draw(canvas, paint);
+            if (gameState.getPaused()) {
+                enemies.get(i).pause();
+            } else {
                 enemies.get(i).resume();
                 enemies.get(i).move();
-        }
-        while (enemies.get(i).getLocationX() >= 2*CONSTANT.SQUARE_SIZE) {
-            i=i-1;
-            enemies.get(i).draw(canvas, paint);
-            if(gameState.getPaused()){
-                enemies.get(i).pause();
-            }else {
+            }
+            while ((enemies.get(i).getLocationX() >= 2 * CONSTANT.SQUARE_SIZE) && i >= 1) {
+                i = i - 1;
+                enemies.get(i).draw(canvas, paint);
+                if (gameState.getPaused()) {
+                    enemies.get(i).pause();
+                } else {
                     enemies.get(i).resume();
                     enemies.get(i).move();
+                }
+
+                if (i <= 0) {
+                    return;
+                }
             }
-            if(i<=0) break;
         }
     }
 }
