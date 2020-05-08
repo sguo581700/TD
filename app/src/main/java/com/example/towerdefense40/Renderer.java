@@ -63,6 +63,7 @@ class Renderer {
     private void arrowSpawn(UIController uiController, GameState gameState){
         if(enemies.size() > 0) {
             if (uiController.getT().distance(enemies.get(enemies.size() - 1)) <= CONSTANT.FIRING_RANGE) {
+                uiController.getT().rotateDown();
                 uiController.getT().getProjectile().draw(canvas, paint);
                 if (gameState.getPaused()) {
                     uiController.getT().getProjectile().pause();
@@ -72,6 +73,8 @@ class Renderer {
                     EnemiesTakenHit(uiController);
                     EnemyRemoval(uiController);
                 }
+            }else{
+                uiController.getT().recover();
             }
         }
 
@@ -143,7 +146,6 @@ class Renderer {
                     enemies.get(i).resume();
                     enemies.get(i).move();
                 }
-
                 if (i <= 0) {
                     return;
                 }

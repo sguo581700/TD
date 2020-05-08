@@ -13,18 +13,28 @@ import android.graphics.drawable.BitmapDrawable;
 import java.util.Random;
 
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+
 class Enemy extends GameObject {
     private Bitmap bitmapObject;
     private Bitmap bitmapObjectUp;
     private Bitmap bitmapObjectR;
     private Bitmap bitmapObjectD;
+    private Bitmap bitmapObject_Dead;
     private int objectWidth;
     private int objectHeight;
     private int screenWidth;
     private int screenHeight;
     private Point location;
     private int speed;
-    private int enemiesRemain;
     private static double hitPoint;
     private boolean isDead;
     private Rect rect;
@@ -37,54 +47,40 @@ class Enemy extends GameObject {
         bitmapObject = setBitmapObject(context, objectWidth, objectHeight, R.drawable.basic_enemy);
         bitmapObjectUp = rotateBitmap(CONSTANT.LEFT, objectWidth, objectHeight);
         bitmapObjectR = setBitmapObject(context, objectWidth, objectHeight, R.drawable.basic_enemy);
+        bitmapObject_Dead = setBitmapObject(context, objectWidth, objectHeight, R.drawable.uibarsquare);
         bitmapObjectD = rotateBitmap(CONSTANT.RIGHT, objectWidth, objectHeight);
         speed = 1;
-        enemiesRemain = CONSTANT.WAVE1_ENEMY;
-        location = new Point();
+        location = new Point(getSquareSize(), getSquareSize()*13);
         hitPoint =10;
         isDead = false;
         rect = new Rect(location.x, location.y, objectWidth, objectHeight);
-
     }
-
-
-    void setEnemiesRemain() {
-        enemiesRemain -= 1;
-
-    }
-    int getEnemiesRemain(){ return enemiesRemain; }
-
+    void dead(){bitmapObject=bitmapObject_Dead;}
     private void turnUp(){bitmapObject = bitmapObjectUp;}
     private void turnDown(){bitmapObject =bitmapObjectD;}
     private void recover(){bitmapObject = bitmapObjectR;}
     void hitPointLoss(){
         double temp = hitPoint;
-        hitPoint= temp-5.0;
-
-        if (hitPoint <= 0) setEnemiesRemain();
-    }
+        hitPoint= temp-5.0;}
     void setLocation(int x, int y){
         location.x = x;
         location.y = y;
     }
+    boolean isDead(){return isDead;}
+    void setDead(){isDead=true;}
     void move(){
-
-        if(location.x< 25 * CONSTANT.SQUARE_SIZE && location.y == 12 * CONSTANT.SQUARE_SIZE ||
-                location.x< 24 * CONSTANT.SQUARE_SIZE && location.y == 13 * CONSTANT.SQUARE_SIZE ){
+        if(location.x<objectWidth*25){
             location.x+=speed;
         }else{
             turnDown();
             location.y+=speed;
         }
-
         if(location.y<screenHeight/2-6*objectHeight){
             this.recover();
             location.y=screenHeight/2-6*objectHeight;
             location.x+=speed;
         }
-
     }
-
     void pause(){
         speed=0;
     }
@@ -96,17 +92,7 @@ class Enemy extends GameObject {
         return drawable;
     }
     void draw(Canvas canvas, Paint paint){
-        final Random myRandom = new Random();
-
-        if(location.x == CONSTANT.SQUARE_SIZE) {
-            int spawnY = myRandom.nextInt(2) + 12;
-            location.y = spawnY * CONSTANT.SQUARE_SIZE;
-        }
-
-        if(location.y < objectHeight * 17) {
-
-            canvas.drawBitmap(bitmapObject, location.x, location.y, paint);
-        }
+        canvas.drawBitmap(bitmapObject, location.x, location.y, paint);
     }
     Bitmap getBitmapObject(){return this.bitmapObject;}
     int getLocationX(){return location.x;}

@@ -41,8 +41,6 @@ public class HUD extends GameObject {
         label.add(3,R.drawable.construct2);
         label.add(4,R.drawable.construct3);
         label.add(5,R.drawable.recycle);
-
-
         //set list of bitmap objs
         controls = new ArrayList<>();
         for(int i=0; i<CONSTANT.BUTTONS;i++) {
@@ -105,7 +103,6 @@ public class HUD extends GameObject {
         drawTimer(canvas, paint, gameState);
         //drawRemain(canvas, paint, gameState);
         gameState.startTimer();
-
         if(gameState.getGameOver()){
             paint.setTextSize(textFormatting*5);
             if(gameState.getDefeated()){
@@ -123,7 +120,6 @@ public class HUD extends GameObject {
             canvas.drawText("PAUSED", S*4, S*12, paint);
             gameState.pauseTimer();
         }
-
         drawControls(canvas, paint);
         setLocation();
         for(int i = 0; i<CONSTANT.BUTTONS;i++) {

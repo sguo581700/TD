@@ -8,9 +8,7 @@ import android.graphics.Matrix;
 public abstract class GameObject {
     private Bitmap bitmapObject;
     GameObject(Context context){
-
     }
-
     Bitmap setBitmapObject(Context context, int objectWidth, int objectHeight, int id) {
         this.bitmapObject = BitmapFactory.decodeResource(context.getResources(), id);
         this.bitmapObject= Bitmap.createScaledBitmap(this.bitmapObject, objectWidth, objectHeight, false);

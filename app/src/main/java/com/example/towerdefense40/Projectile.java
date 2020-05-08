@@ -18,7 +18,7 @@ class Projectile extends GameObject {
         objectHeight = CONSTANT.SQUARE_SIZE/2;
         location = new Point();
         bitmapObject = setBitmapObject(context, objectWidth, objectHeight, R.drawable.projectile_arrow);
-        speed = 5;
+        speed = 1;
     }
     void setLocation(Tower tower){
         location.x = tower.getLocationX();
@@ -47,6 +47,7 @@ class Projectile extends GameObject {
                     location.x += speed;
                     location.y += speed;
                 }
+                //if(location.y>=enemy.getLocationY()) setLocation(tower);
             }
             if (tower.getLocationY() > enemy.getLocationY()) {  //area2 tower to enemy
                 if (enemy.getLocationX() < tower.getLocationX()) {
@@ -56,6 +57,7 @@ class Projectile extends GameObject {
                     location.x += speed;
                     location.y -= speed;
                 }
+               // if(location.y<enemy.getLocationY()+enemy.getObjectHeight())setLocation(tower);
             }
         }
         if(location.x<=0||location.y>=22*CONSTANT.SQUARE_SIZE){

@@ -48,15 +48,12 @@ class GameEngine extends SurfaceView implements Runnable, GameEngineBroadcaster{
             Log.e("Exception", "stopThread()"+e.getMessage());
         }
     }
-
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent){
         for(InputObserver o: inputObservers)
                 uiController.handleInput(motionEvent, gameState, hud.getControlsR(), hud.getAreasR());
-
         return true;
     }
-
     @Override
     public void addObserver(InputObserver o) {
         inputObservers.add(o);
