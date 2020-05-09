@@ -18,6 +18,7 @@ class Tower extends GameObject {
     private Bitmap bitmapObject;
     private Bitmap bitmapObjectR;
     private Bitmap bitmapObjectD;
+    private Bitmap bitmapObjectL;
     private Bitmap test;
     private int S;
     private double distance;
@@ -28,10 +29,11 @@ class Tower extends GameObject {
         S = CONSTANT.SQUARE_SIZE;
         Resources res = Resources.getSystem();
         bitmapObject = setBitmapObject(context,2*S, 2*S, R.drawable.tower);
+        bitmapObjectD = rotate(180);
+        bitmapObjectL=rotate(-90);
         RoundedBitmapDrawable roundedBitmapDrawable= RoundedBitmapDrawableFactory.create(context.getResources(), bitmapObject);
         roundedBitmapDrawable.setCircular(true);
         bitmapObjectR =setBitmapObject(context,2*S, 2*S, R.drawable.tower);
-        bitmapObjectD = rotate();
         test=setBitmapObject(context, 2*S, 2*S, R.drawable.buildsquare);
         location = new Point();
         projectile = new Projectile(context);
@@ -52,10 +54,11 @@ class Tower extends GameObject {
         return Math.asin(Math.abs(enemy.getLocationY()+S/2-this.getLocationY()-S/2)/distance(enemy));
      }
      void rotateDown(){bitmapObject=bitmapObjectD;}
+     void rotateLeft(){bitmapObject= bitmapObjectL;}
      void recover(){bitmapObject=bitmapObjectR;}
-     Bitmap rotate(){
+     private Bitmap rotate(int degree){
          Matrix matrix = new Matrix();
-         matrix.setRotate(180,S, S);
+         matrix.setRotate(degree,S, S);
          return Bitmap.createBitmap(bitmapObject,0,0, 2*S, 2*S, matrix, true);
      }
     int getLocationX(){return location.x;}

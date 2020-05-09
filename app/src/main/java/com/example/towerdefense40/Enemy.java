@@ -47,7 +47,6 @@ class Enemy extends GameObject {
         bitmapObject = setBitmapObject(context, objectWidth, objectHeight, R.drawable.basic_enemy);
         bitmapObjectUp = rotateBitmap(CONSTANT.LEFT, objectWidth, objectHeight);
         bitmapObjectR = setBitmapObject(context, objectWidth, objectHeight, R.drawable.basic_enemy);
-        bitmapObject_Dead = setBitmapObject(context, objectWidth, objectHeight, R.drawable.uibarsquare);
         bitmapObjectD = rotateBitmap(CONSTANT.RIGHT, objectWidth, objectHeight);
         speed = 1;
         location = new Point(getSquareSize(), getSquareSize()*13);
@@ -55,8 +54,6 @@ class Enemy extends GameObject {
         isDead = false;
         rect = new Rect(location.x, location.y, objectWidth, objectHeight);
     }
-    void dead(){bitmapObject=bitmapObject_Dead;}
-    private void turnUp(){bitmapObject = bitmapObjectUp;}
     private void turnDown(){bitmapObject =bitmapObjectD;}
     private void recover(){bitmapObject = bitmapObjectR;}
     void hitPointLoss(){
@@ -66,8 +63,6 @@ class Enemy extends GameObject {
         location.x = x;
         location.y = y;
     }
-    boolean isDead(){return isDead;}
-    void setDead(){isDead=true;}
     void move(){
         if(location.x<objectWidth*25){
             location.x+=speed;
@@ -86,10 +81,6 @@ class Enemy extends GameObject {
     }
     void resume(){
         speed=1;
-    }
-    BitmapDrawable beTransparent(BitmapDrawable drawable){
-        drawable.setAlpha(100);
-        return drawable;
     }
     void draw(Canvas canvas, Paint paint){
         canvas.drawBitmap(bitmapObject, location.x, location.y, paint);

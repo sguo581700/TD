@@ -47,7 +47,6 @@ class Projectile extends GameObject {
                     location.x += speed;
                     location.y += speed;
                 }
-                //if(location.y>=enemy.getLocationY()) setLocation(tower);
             }
             if (tower.getLocationY() > enemy.getLocationY()) {  //area2 tower to enemy
                 if (enemy.getLocationX() < tower.getLocationX()) {
@@ -57,7 +56,15 @@ class Projectile extends GameObject {
                     location.x += speed;
                     location.y -= speed;
                 }
-               // if(location.y<enemy.getLocationY()+enemy.getObjectHeight())setLocation(tower);
+            }
+            if(tower.getLocationX()>enemy.getLocationX()){
+                if(enemy.getLocationY()<tower.getLocationY()){
+                    location.x -= speed;
+                    location.y -= speed;
+                }else{
+                    location.x -= speed;
+                    location.y += speed;
+                }
             }
         }
         if(location.x<=0||location.y>=22*CONSTANT.SQUARE_SIZE){

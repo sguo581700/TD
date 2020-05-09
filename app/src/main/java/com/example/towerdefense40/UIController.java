@@ -9,13 +9,16 @@ import java.util.ArrayList;
 public class UIController implements InputObserver{
     private Tower t;
     private Tower t2;
+    private Tower t3;
     UIController(GameEngineBroadcaster gb, Context context){
         gb.addObserver(this);
          t = new Tower(context);
          t2= new Tower(context);
+         t3 = new Tower(context);
     }
     Tower getT(){return t;}
     Tower getT2(){return t2;}
+    Tower getT3(){return t3;}
     @Override
     public void handleInput(MotionEvent event, GameState gameState, ArrayList<Rect>buttons, ArrayList<Rect>areas){
         int i = event.getActionIndex();
@@ -71,6 +74,14 @@ public class UIController implements InputObserver{
                 gameState.setBuild();
                 t2.setLocation(x,y);
                 t2.getProjectile().setLocation(t2);
+            }
+            if (areas.get(HUD.AREA3).contains(x, y)) {
+                if(!gameState.getPaused()) {
+                    gameState.pause();
+                }
+                gameState.setBuild();
+                t3.setLocation(x,y);
+                t3.getProjectile().setLocation(t3);
             }
         }
     }

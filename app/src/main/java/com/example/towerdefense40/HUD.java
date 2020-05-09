@@ -29,6 +29,7 @@ public class HUD extends GameObject {
     static int RECYCLE = 5;
     static int AREA1 = 0;
     static int AREA2 = 1;
+    static int AREA3 = 2;
     private int textFormatting;
 
     HUD(Context context) {
@@ -73,10 +74,12 @@ public class HUD extends GameObject {
     }
     private void createAreasR(){
         Rect area1 = new Rect(0, S*9, S*26, S*11); //areas built towers
-        Rect area2 = new Rect (0, S*15, S*22, S*17); //areas built towers
+        Rect area2 = new Rect (0, S*15, S*22, S*17); //areas built
+        Rect area3 = new Rect(0, 13*S, 36*S, 18*S);
         areasR = new ArrayList<>();
         areasR.add(AREA1, area1);
         areasR.add(AREA2, area2);
+        areasR.add(AREA3, area3);
     }
     ArrayList<Rect>getControlsR(){
         return controlsR;
